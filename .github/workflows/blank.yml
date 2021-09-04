@@ -1,0 +1,21 @@
+_GDIPlus_LineBrushSetPresetBlend($hLBrush_globe1, $aInterpolations)
+_GDIPlus_GraphicsFillPath($hGfx, $hPath_globe, $hLBrush_globe1)
+Global Const $iSize_globe2 = $iSize_globe * 0.85, $iSize_globe2_Img = $iSize_globe2 * 1.5
+Global Const $hImage_globe2 = _GDIPlus_BitmapCreateFromScan0($iSize_globe2_Img, $iSize_globe2_Img)
+Global Const $hGfx_globe2 = _GDIPlus_ImageGetGraphicsContext($hImage_globe2)
+Global Const $hBrush_globe2 = _GDIPlus_BrushCreateSolid(0x7F000000)
+;draw shadow and blur it
+Global Const $px = ($iSize_globe2_Img - $iSize_globe2) / 2, $py = ($iSize_globe2_Img - $iSize_globe2) / 2
+_GDIPlus_GraphicsFillEllipse($hGfx_globe2, $px, $py + ($iSize_globe - $iSize_globe2) * 0.25, $iSize_globe2, $iSize_globe2, $hBrush_globe2)
+Global Const $hEffect_blur_shadow2 = _GDIPlus_EffectCreateBlur(15)
+_GDIPlus_BitmapApplyEffect($hImage_globe2, $hEffect_blur_shadow2)
+;draw 2nd smaller globe and blur it, too
+Global Const $hLBrush_globe2 = _GDIPlus_LineBrushCreate($iW / 2, $py, $iW / 2, $py + $iSize_globe2, 0, 0)
+Dim $aInterpolations[4][2]
+$aInterpolations[0][0] = 3
+$aInterpolations[1][0] = 0xFFFFFFFF
+$aInterpolations[1][1] = 0
+$aInterpolations[2][0] = 0xFF2E86FB
+$aInterpolations[2][1] = 0.60
+$aInterpolations[3][0] = 0xFF283593
+$aInterpolations[3][1] = 1.0
